@@ -1,0 +1,85 @@
+/* VisionGuard AI — Custom styles (supplements Tailwind) */
+
+/* Smooth drag-over highlight on drop zone */
+#dropZone.drag-over {
+  border-color: #6366f1;
+  background-color: rgba(99, 102, 241, 0.08);
+}
+
+/* Confidence bar progress animation */
+#confidenceBar {
+  transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Custom scrollbar for dark theme */
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: #374151 transparent;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: #374151; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background-color: #4b5563; }
+
+/* Focus ring for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+/* Toast animation */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up { animation: slideUp 0.3s ease-out; }
+
+/* Loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Light theme overrides */
+html:not(.dark) body {
+  background-color: #f9fafb;
+  color: #111827;
+}
+html:not(.dark) nav {
+  background-color: rgba(255,255,255,0.9);
+  border-color: #e5e7eb;
+}
+html:not(.dark) #uploadCard,
+html:not(.dark) #loadingCard,
+html:not(.dark) #resultCard {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+html:not(.dark) .bg-gray-900 {
+  background-color: #ffffff;
+}
+html:not(.dark) .bg-gray-800\/50 {
+  background-color: rgba(243,244,246,0.8);
+}
+html:not(.dark) .border-gray-800 {
+  border-color: #e5e7eb;
+}
+html:not(.dark) .border-gray-700 {
+  border-color: #d1d5db;
+}
+html:not(.dark) .text-gray-400 {
+  color: #6b7280;
+}
+html:not(.dark) .text-gray-500 {
+  color: #9ca3af;
+}
+html:not(.dark) .bg-gray-800 {
+  background-color: #f3f4f6;
+}
+html:not(.dark) .bg-gray-950 {
+  background-color: #f9fafb;
+}
+html:not(.dark) .text-gray-100 {
+  color: #111827;
+}

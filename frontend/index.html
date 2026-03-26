@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VisionGuard AI — AI Image Detection</title>
+  <meta name="description" content="Detect whether an image is AI-generated or real with high accuracy using advanced AI analysis." />
+
+  <!-- Tailwind CSS (locally built) -->
+  <link rel="stylesheet" href="css/tailwind.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-gray-950 text-gray-100 min-h-screen transition-colors duration-300" id="body">
+
+  <!-- ── Navigation ─────────────────────────────────────────────────── -->
+  <nav class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-2 group">
+          <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center group-hover:bg-brand-500 transition-colors">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+          </div>
+          <span class="font-bold text-lg text-white">VisionGuard <span class="text-brand-400">AI</span></span>
+        </a>
+
+        <!-- Nav links -->
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-gray-300 hover:text-white transition-colors text-sm font-medium" data-i18n="nav.home">Home</a>
+          <a href="dashboard.html" class="text-gray-300 hover:text-white transition-colors text-sm font-medium" data-i18n="nav.dashboard">Dashboard</a>
+        </div>
+
+        <!-- Right controls -->
+        <div class="flex items-center gap-3">
+          <!-- Language toggle -->
+          <button id="langToggle" class="text-xs px-2 py-1 rounded border border-gray-700 hover:border-brand-500 text-gray-400 hover:text-white transition-all" title="Toggle Language">EN</button>
+
+          <!-- Theme toggle -->
+          <button id="themeToggle" class="w-9 h-9 rounded-lg border border-gray-700 hover:border-brand-500 flex items-center justify-center text-gray-400 hover:text-white transition-all" title="Toggle theme">
+            <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+            <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+          </button>
+
+          <!-- Auth buttons -->
+          <div id="authButtons" class="flex items-center gap-2">
+            <a href="dashboard.html" id="loginBtn" class="text-sm px-3 py-1.5 rounded-lg border border-gray-700 hover:border-brand-500 text-gray-300 hover:text-white transition-all" data-i18n="nav.login">Log In</a>
+            <a href="dashboard.html" id="signupBtn" class="text-sm px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-medium transition-colors" data-i18n="nav.signup">Sign Up</a>
+          </div>
+          <div id="userMenu" class="hidden items-center gap-2">
+            <span id="userName" class="text-sm text-gray-300"></span>
+            <button id="logoutBtn" class="text-sm px-3 py-1.5 rounded-lg border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-400 transition-all" data-i18n="nav.logout">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="relative overflow-hidden py-16 sm:py-24">
+    <!-- Gradient background blobs -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-brand-600/20 blur-3xl"></div>
+      <div class="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-purple-600/20 blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-4xl mx-auto px-4 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-900/50 border border-brand-700/50 text-brand-400 text-xs font-medium mb-6">
+        <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse-slow"></span>
+        <span data-i18n="hero.badge">Powered by Sightengine AI API</span>
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+        <span data-i18n="hero.title1">Detect</span>
+        <span class="bg-gradient-to-r from-brand-400 to-purple-400 bg-clip-text text-transparent"> <span data-i18n="hero.title2">AI-Generated</span></span>
+        <br /><span data-i18n="hero.title3">Images Instantly</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10" data-i18n="hero.subtitle">
+        Upload any image and our AI will determine whether it's real or machine-generated — with a confidence score and detailed analysis.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Upload & Result ───────────────────────────────────────────────── -->
+  <main class="max-w-3xl mx-auto px-4 pb-24">
+
+    <!-- Upload card -->
+    <div id="uploadCard" class="bg-gray-900 rounded-2xl border border-gray-800 p-6 sm:p-8 mb-8">
+      <h2 class="text-lg font-semibold mb-4" data-i18n="upload.title">Upload Image</h2>
+
+      <!-- Drop zone -->
+      <div
+        id="dropZone"
+        class="relative rounded-xl border-2 border-dashed border-gray-700 hover:border-brand-500 transition-colors duration-200 cursor-pointer flex flex-col items-center justify-center py-12 px-6 text-center"
+        role="button"
+        tabindex="0"
+        aria-label="Upload image drop zone"
+      >
+        <!-- Upload icon -->
+        <div class="w-14 h-14 rounded-full bg-gray-800 flex items-center justify-center mb-4 group-hover:bg-brand-900 transition-colors">
+          <svg class="w-7 h-7 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+        </div>
+        <p class="text-gray-400 text-sm mb-1" data-i18n="upload.dragText">Drag &amp; drop your image here</p>
+        <p class="text-gray-600 text-xs mb-4" data-i18n="upload.orText">or click to browse files</p>
+        <p class="text-gray-600 text-xs" data-i18n="upload.supportedFormats">Supports JPEG, PNG, WebP, GIF · Max 10 MB</p>
+
+        <!-- Hidden file input -->
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,image/gif" class="absolute inset-0 opacity-0 cursor-pointer" aria-hidden="true" />
+      </div>
+
+      <!-- Preview section (hidden until file selected) -->
+      <div id="previewSection" class="hidden mt-5">
+        <div class="flex items-start gap-4 p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+          <img id="previewImg" src="" alt="Preview" class="w-20 h-20 object-cover rounded-lg border border-gray-700 flex-shrink-0" />
+          <div class="flex-1 min-w-0">
+            <p id="fileName" class="text-sm font-medium text-white truncate"></p>
+            <p id="fileSize" class="text-xs text-gray-500 mt-1"></p>
+            <button id="removeFile" class="mt-2 text-xs text-red-400 hover:text-red-300 transition-colors" data-i18n="upload.removeFile">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analyse button -->
+      <button
+        id="analyseBtn"
+        disabled
+        class="mt-5 w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-500 disabled:bg-gray-800 disabled:text-gray-600 disabled:cursor-not-allowed text-white font-semibold transition-all duration-200 flex items-center justify-center gap-2"
+        data-i18n="upload.analyseBtn"
+      >
+        Analyse Image
+      </button>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loadingCard" class="hidden bg-gray-900 rounded-2xl border border-gray-800 p-8 text-center mb-8 animate-fade-in">
+      <div class="w-16 h-16 mx-auto mb-4 relative">
+        <div class="absolute inset-0 rounded-full border-4 border-gray-800"></div>
+        <div class="absolute inset-0 rounded-full border-4 border-brand-500 border-t-transparent animate-spin"></div>
+        <svg class="absolute inset-0 m-auto w-6 h-6 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m1.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.347.347a7.95 7.95 0 01-2.242 5.3A7.951 7.951 0 0112 21a7.95 7.95 0 01-4.949-1.714 7.949 7.949 0 01-2.243-5.3L4.343 13.3z"/>
+        </svg>
+      </div>
+      <p class="text-white font-semibold" data-i18n="loading.title">Analysing Image…</p>
+      <p class="text-gray-500 text-sm mt-1" data-i18n="loading.subtitle">Sending to AI detection engine</p>
+    </div>
+
+    <!-- Result card -->
+    <div id="resultCard" class="hidden bg-gray-900 rounded-2xl border border-gray-800 p-6 sm:p-8 mb-8 animate-slide-up">
+      <!-- Header row -->
+      <div class="flex items-start justify-between mb-6">
+        <div>
+          <p class="text-sm text-gray-500 mb-1" data-i18n="result.title">Detection Result</p>
+          <div id="resultBadge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-semibold"></div>
+        </div>
+        <button id="newAnalysisBtn" class="text-xs px-3 py-1.5 rounded-lg border border-gray-700 hover:border-brand-500 text-gray-400 hover:text-white transition-all" data-i18n="result.newAnalysis">New Analysis</button>
+      </div>
+
+      <!-- Confidence bar -->
+      <div class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm text-gray-400" data-i18n="result.confidence">Confidence Score</span>
+          <span id="confidenceValue" class="text-lg font-bold text-white"></span>
+        </div>
+        <div class="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+          <div id="confidenceBar" class="h-full rounded-full transition-all duration-1000 ease-out" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- AI / Real scores -->
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+          <p class="text-xs text-gray-500 mb-1" data-i18n="result.aiScore">AI-Generated Score</p>
+          <p id="aiScoreValue" class="text-xl font-bold text-red-400"></p>
+        </div>
+        <div class="bg-gray-800/50 rounded-xl p-4 border border-gray-700">
+          <p class="text-xs text-gray-500 mb-1" data-i18n="result.realScore">Real Image Score</p>
+          <p id="realScoreValue" class="text-xl font-bold text-green-400"></p>
+        </div>
+      </div>
+
+      <!-- Signals / Explanation -->
+      <div id="signalsSection" class="hidden">
+        <p class="text-sm font-medium text-gray-300 mb-3" data-i18n="result.signals">Detected Signals</p>
+        <ul id="signalsList" class="space-y-2"></ul>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Features section ──────────────────────────────────────────────── -->
+  <section class="bg-gray-900/50 border-y border-gray-800 py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-bold text-center mb-12" data-i18n="features.title">Why VisionGuard AI?</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Feature cards -->
+        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-brand-700 transition-colors">
+          <div class="w-10 h-10 rounded-lg bg-brand-900/50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2" data-i18n="features.accuracy">Real AI API</h3>
+          <p class="text-sm text-gray-500" data-i18n="features.accuracyDesc">Powered by Sightengine's production-grade AI model — not a mock or demo.</p>
+        </div>
+        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-brand-700 transition-colors">
+          <div class="w-10 h-10 rounded-lg bg-purple-900/50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2" data-i18n="features.fast">Instant Results</h3>
+          <p class="text-sm text-gray-500" data-i18n="features.fastDesc">Get a confidence score and detailed signals within seconds of uploading.</p>
+        </div>
+        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-brand-700 transition-colors">
+          <div class="w-10 h-10 rounded-lg bg-green-900/50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2" data-i18n="features.secure">Secure & Private</h3>
+          <p class="text-sm text-gray-500" data-i18n="features.secureDesc">API keys hidden in backend. Files processed in memory — never stored on disk.</p>
+        </div>
+        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-brand-700 transition-colors">
+          <div class="w-10 h-10 rounded-lg bg-yellow-900/50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2" data-i18n="features.history">History & Dashboard</h3>
+          <p class="text-sm text-gray-500" data-i18n="features.historyDesc">Registered users can view, filter and manage their full analysis history.</p>
+        </div>
+        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-brand-700 transition-colors">
+          <div class="w-10 h-10 rounded-lg bg-pink-900/50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2" data-i18n="features.responsive">Fully Responsive</h3>
+          <p class="text-sm text-gray-500" data-i18n="features.responsiveDesc">Works beautifully on desktop, tablet, and mobile devices.</p>
+        </div>
+        <div class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-brand-700 transition-colors">
+          <div class="w-10 h-10 rounded-lg bg-blue-900/50 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+          </div>
+          <h3 class="font-semibold mb-2" data-i18n="features.multilang">Multi-Language</h3>
+          <p class="text-sm text-gray-500" data-i18n="features.multilangDesc">Interface available in English and Hindi (हिन्दी).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Toast container ──────────────────────────────────────────────── -->
+  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ── Auth Modal ───────────────────────────────────────────────────── -->
+  <div id="authModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-gray-900 rounded-2xl border border-gray-800 w-full max-w-md p-8 animate-slide-up">
+      <div class="flex justify-between items-center mb-6">
+        <h2 id="modalTitle" class="text-xl font-bold" data-i18n="auth.loginTitle">Log In</h2>
+        <button id="closeModal" class="text-gray-500 hover:text-white transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Login form -->
+      <form id="loginForm">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1" data-i18n="auth.email">Email</label>
+            <input type="email" id="loginEmail" class="w-full px-4 py-2.5 rounded-xl bg-gray-800 border border-gray-700 focus:border-brand-500 focus:outline-none text-white text-sm" placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1" data-i18n="auth.password">Password</label>
+            <input type="password" id="loginPassword" class="w-full px-4 py-2.5 rounded-xl bg-gray-800 border border-gray-700 focus:border-brand-500 focus:outline-none text-white text-sm" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-colors" data-i18n="auth.loginBtn">Log In</button>
+          <p class="text-center text-sm text-gray-500">
+            <span data-i18n="auth.noAccount">Don't have an account?</span>
+            <button type="button" id="switchToRegister" class="text-brand-400 hover:text-brand-300 ml-1" data-i18n="auth.register">Register</button>
+          </p>
+        </div>
+      </form>
+
+      <!-- Register form (hidden) -->
+      <form id="registerForm" class="hidden">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1" data-i18n="auth.name">Name</label>
+            <input type="text" id="registerName" class="w-full px-4 py-2.5 rounded-xl bg-gray-800 border border-gray-700 focus:border-brand-500 focus:outline-none text-white text-sm" placeholder="Your name" required />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1" data-i18n="auth.email">Email</label>
+            <input type="email" id="registerEmail" class="w-full px-4 py-2.5 rounded-xl bg-gray-800 border border-gray-700 focus:border-brand-500 focus:outline-none text-white text-sm" placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1" data-i18n="auth.password">Password</label>
+            <input type="password" id="registerPassword" class="w-full px-4 py-2.5 rounded-xl bg-gray-800 border border-gray-700 focus:border-brand-500 focus:outline-none text-white text-sm" placeholder="Min. 8 characters" required />
+          </div>
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold transition-colors" data-i18n="auth.registerBtn">Create Account</button>
+          <p class="text-center text-sm text-gray-500">
+            <span data-i18n="auth.hasAccount">Already have an account?</span>
+            <button type="button" id="switchToLogin" class="text-brand-400 hover:text-brand-300 ml-1" data-i18n="auth.login">Log In</button>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
