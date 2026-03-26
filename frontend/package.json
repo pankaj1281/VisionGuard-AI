@@ -1,0 +1,14 @@
+{
+  "name": "visionguard-ai-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for VisionGuard AI — build Tailwind CSS",
+  "scripts": {
+    "build:css": "tailwindcss -i input.css -o css/tailwind.css --content './index.html,./dashboard.html,./admin.html,./js/*.js'",
+    "watch:css": "tailwindcss -i input.css -o css/tailwind.css --content './index.html,./dashboard.html,./admin.html,./js/*.js' --watch"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^4.2.2"
+  }
+}

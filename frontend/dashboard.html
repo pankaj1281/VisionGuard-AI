@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — VisionGuard AI</title>
+  <link rel="stylesheet" href="css/tailwind.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-gray-950 text-gray-100 min-h-screen" id="body">
+
+  <!-- Nav -->
+  <nav class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </div>
+          <span class="font-bold text-lg text-white">VisionGuard <span class="text-brand-400">AI</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-gray-300 hover:text-white text-sm font-medium" data-i18n="nav.home">Home</a>
+          <a href="dashboard.html" class="text-white text-sm font-medium border-b-2 border-brand-500 pb-0.5" data-i18n="nav.dashboard">Dashboard</a>
+          <span id="adminLinkWrap" class="hidden"><a href="admin.html" class="text-gray-300 hover:text-white text-sm font-medium">Admin</a></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="langToggle" class="text-xs px-2 py-1 rounded border border-gray-700 hover:border-brand-500 text-gray-400 hover:text-white transition-all">EN</button>
+          <button id="themeToggle" class="w-9 h-9 rounded-lg border border-gray-700 hover:border-brand-500 flex items-center justify-center text-gray-400 hover:text-white transition-all">
+            <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <span id="userGreet" class="text-sm text-gray-400 hidden"></span>
+          <button id="logoutBtn" class="text-sm px-3 py-1.5 rounded-lg border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-400 transition-all" data-i18n="nav.logout">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Auth gate (shown when not logged in) -->
+  <div id="authGate" class="hidden max-w-md mx-auto mt-20 px-4 text-center">
+    <div class="bg-gray-900 rounded-2xl border border-gray-800 p-10">
+      <svg class="w-12 h-12 mx-auto text-brand-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      <h2 class="text-xl font-bold mb-2">Sign In Required</h2>
+      <p class="text-gray-500 text-sm mb-6">Please log in or create an account to view your dashboard.</p>
+      <div class="flex gap-3 justify-center">
+        <a href="index.html" class="px-4 py-2 rounded-xl border border-gray-700 hover:border-brand-500 text-sm text-gray-300 hover:text-white transition-all" data-i18n="nav.login">Log In</a>
+        <a href="index.html" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-sm text-white font-medium transition-colors" data-i18n="nav.signup">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard content (shown when logged in) -->
+  <div id="dashContent" class="hidden max-w-6xl mx-auto px-4 py-10">
+
+    <!-- Welcome header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-2xl font-bold" data-i18n="dash.title">My Dashboard</h1>
+        <p class="text-gray-500 text-sm mt-1"><span data-i18n="dash.welcome">Welcome back</span>, <span id="welcomeName" class="text-brand-400 font-medium"></span></p>
+      </div>
+      <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-medium transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        New Analysis
+      </a>
+    </div>
+
+    <!-- Stats cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-5">
+        <p class="text-xs text-gray-500 mb-1" data-i18n="dash.totalAnalyses">Total Analyses</p>
+        <p id="statTotal" class="text-2xl font-bold text-white">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-5">
+        <p class="text-xs text-gray-500 mb-1" data-i18n="dash.aiDetected">AI Detected</p>
+        <p id="statAI" class="text-2xl font-bold text-red-400">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-5">
+        <p class="text-xs text-gray-500 mb-1" data-i18n="dash.realImages">Real Images</p>
+        <p id="statReal" class="text-2xl font-bold text-green-400">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-5">
+        <p class="text-xs text-gray-500 mb-1" data-i18n="dash.avgConfidence">Avg. Confidence</p>
+        <p id="statAvg" class="text-2xl font-bold text-brand-400">—</p>
+      </div>
+    </div>
+
+    <!-- History table -->
+    <div class="bg-gray-900 rounded-2xl border border-gray-800 p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+        <h2 class="font-semibold" data-i18n="dash.historyTitle">Analysis History</h2>
+
+        <!-- Filters -->
+        <div class="flex gap-2">
+          <button data-filter="" class="filter-btn active-filter text-xs px-3 py-1.5 rounded-lg bg-brand-700/30 text-brand-400 border border-brand-700" data-i18n="dash.filterAll">All</button>
+          <button data-filter="ai" class="filter-btn text-xs px-3 py-1.5 rounded-lg border border-gray-700 text-gray-400 hover:border-brand-500 hover:text-white transition-all" data-i18n="dash.filterAI">AI Generated</button>
+          <button data-filter="real" class="filter-btn text-xs px-3 py-1.5 rounded-lg border border-gray-700 text-gray-400 hover:border-brand-500 hover:text-white transition-all" data-i18n="dash.filterReal">Real Images</button>
+        </div>
+      </div>
+
+      <!-- Loading indicator -->
+      <div id="historyLoading" class="flex justify-center py-10">
+        <div class="w-8 h-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin"></div>
+      </div>
+
+      <!-- Empty state -->
+      <div id="historyEmpty" class="hidden text-center py-14 text-gray-600">
+        <svg class="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <p data-i18n="dash.noHistory">No analyses yet. Go analyse some images!</p>
+      </div>
+
+      <!-- Table -->
+      <div id="historyTable" class="hidden overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b border-gray-800">
+              <th class="pb-3 pr-4 font-medium">File</th>
+              <th class="pb-3 pr-4 font-medium">Result</th>
+              <th class="pb-3 pr-4 font-medium">Confidence</th>
+              <th class="pb-3 pr-4 font-medium">Date</th>
+              <th class="pb-3 font-medium"></th>
+            </tr>
+          </thead>
+          <tbody id="historyBody" class="divide-y divide-gray-800"></tbody>
+        </table>
+      </div>
+
+      <!-- Load more -->
+      <div id="loadMoreWrap" class="hidden mt-5 text-center">
+        <button id="loadMoreBtn" class="px-5 py-2 rounded-xl border border-gray-700 hover:border-brand-500 text-sm text-gray-400 hover:text-white transition-all" data-i18n="dash.loadMore">Load More</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

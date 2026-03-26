@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — VisionGuard AI</title>
+  <link rel="stylesheet" href="css/tailwind.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="bg-gray-950 text-gray-100 min-h-screen" id="body">
+
+  <!-- Nav -->
+  <nav class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </div>
+          <span class="font-bold text-lg text-white">VisionGuard <span class="text-brand-400">AI</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-gray-300 hover:text-white text-sm font-medium" data-i18n="nav.home">Home</a>
+          <a href="dashboard.html" class="text-gray-300 hover:text-white text-sm font-medium" data-i18n="nav.dashboard">Dashboard</a>
+          <a href="admin.html" class="text-white text-sm font-medium border-b-2 border-brand-500 pb-0.5" data-i18n="admin.title">Admin Panel</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="langToggle" class="text-xs px-2 py-1 rounded border border-gray-700 hover:border-brand-500 text-gray-400 hover:text-white transition-all">EN</button>
+          <button id="themeToggle" class="w-9 h-9 rounded-lg border border-gray-700 hover:border-brand-500 flex items-center justify-center text-gray-400 hover:text-white transition-all">
+            <svg id="moonIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <svg id="sunIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+          <button id="logoutBtn" class="text-sm px-3 py-1.5 rounded-lg border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-400 transition-all" data-i18n="nav.logout">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Admin access denied -->
+  <div id="accessDenied" class="hidden max-w-md mx-auto mt-20 px-4 text-center">
+    <div class="bg-gray-900 rounded-2xl border border-red-900 p-10">
+      <svg class="w-12 h-12 mx-auto text-red-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+      <h2 class="text-xl font-bold mb-2 text-red-400">Access Denied</h2>
+      <p class="text-gray-500 text-sm">You need admin privileges to access this page.</p>
+    </div>
+  </div>
+
+  <!-- Admin panel content -->
+  <div id="adminContent" class="hidden max-w-6xl mx-auto px-4 py-10">
+
+    <h1 class="text-2xl font-bold mb-8" data-i18n="admin.title">Admin Panel</h1>
+
+    <!-- Platform stats -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8" id="platformStats">
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-xs text-gray-500 mb-1">Total Users</p>
+        <p id="sTotalUsers" class="text-xl font-bold text-white">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-xs text-gray-500 mb-1">Active Users</p>
+        <p id="sActiveUsers" class="text-xl font-bold text-green-400">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-xs text-gray-500 mb-1">Banned Users</p>
+        <p id="sBannedUsers" class="text-xl font-bold text-red-400">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-xs text-gray-500 mb-1">Total Analyses</p>
+        <p id="sTotalDetections" class="text-xl font-bold text-white">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-xs text-gray-500 mb-1">AI Detected</p>
+        <p id="sAIDetections" class="text-xl font-bold text-red-400">—</p>
+      </div>
+      <div class="bg-gray-900 rounded-xl border border-gray-800 p-4">
+        <p class="text-xs text-gray-500 mb-1">Last 24h</p>
+        <p id="sLast24h" class="text-xl font-bold text-brand-400">—</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-6 border-b border-gray-800 pb-0">
+      <button data-tab="users" class="tab-btn pb-3 px-1 text-sm font-medium text-white border-b-2 border-brand-500" data-i18n="admin.users">Users</button>
+      <button data-tab="detections" class="tab-btn pb-3 px-1 text-sm font-medium text-gray-500 hover:text-white border-b-2 border-transparent transition-all" data-i18n="admin.detections">Detections</button>
+    </div>
+
+    <!-- Users panel -->
+    <div id="tabUsers" class="bg-gray-900 rounded-2xl border border-gray-800 p-6">
+      <div id="usersLoading" class="flex justify-center py-10">
+        <div class="w-8 h-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin"></div>
+      </div>
+      <div id="usersEmpty" class="hidden text-center py-10 text-gray-600">No users found.</div>
+      <div id="usersTableWrap" class="hidden overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b border-gray-800">
+              <th class="pb-3 pr-4 font-medium">Name</th>
+              <th class="pb-3 pr-4 font-medium">Email</th>
+              <th class="pb-3 pr-4 font-medium">Role</th>
+              <th class="pb-3 pr-4 font-medium">Analyses</th>
+              <th class="pb-3 pr-4 font-medium">Status</th>
+              <th class="pb-3 font-medium">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody" class="divide-y divide-gray-800"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Detections panel (hidden by default) -->
+    <div id="tabDetections" class="hidden bg-gray-900 rounded-2xl border border-gray-800 p-6">
+      <div id="detectionsLoading" class="flex justify-center py-10">
+        <div class="w-8 h-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin"></div>
+      </div>
+      <div id="detectionsEmpty" class="hidden text-center py-10 text-gray-600">No detections found.</div>
+      <div id="detectionsTableWrap" class="hidden overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-left text-gray-500 border-b border-gray-800">
+              <th class="pb-3 pr-4 font-medium">File</th>
+              <th class="pb-3 pr-4 font-medium">User</th>
+              <th class="pb-3 pr-4 font-medium">Result</th>
+              <th class="pb-3 pr-4 font-medium">Confidence</th>
+              <th class="pb-3 font-medium">Date</th>
+            </tr>
+          </thead>
+          <tbody id="detectionsBody" class="divide-y divide-gray-800"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toastContainer" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
